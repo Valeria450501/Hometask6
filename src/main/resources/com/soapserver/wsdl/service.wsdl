@@ -1,0 +1,83 @@
+<wsdl:definitions
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://soapserver.com/entities"
+	xmlns:tns="http://soapserver.com/entities">
+	
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapserver.com/entities" elementFormDefault="qualified">
+			<xsd:import namespace="http://soapserver.com/entities" schemaLocation="xsd/CountriesRQ.xsd"/>
+			<xsd:import namespace="http://soapserver.com/entities" schemaLocation="xsd/CountriesRS.xsd"/>
+			
+			<xsd:import namespace="http://soapserver.com/entities" schemaLocation="xsd/HotelsRQ.xsd"/>
+			<xsd:import namespace="http://soapserver.com/entities" schemaLocation="xsd/HotelsRS.xsd"/>
+			<xsd:element name="WSFault" />
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="CountryRequest">
+		<wsdl:part element="tns:CountryRequest" name="CountryRequest" />
+	</wsdl:message>
+	<wsdl:message name="CountryResponse">
+		<wsdl:part element="tns:CountryResponse" name="CountryResponse" />
+	</wsdl:message>
+	<wsdl:message name="HotelsRequest">
+		<wsdl:part element="tns:HotelsRequest" name="HotelsRequest" />
+	</wsdl:message>
+	<wsdl:message name="HotelsResponse">
+		<wsdl:part element="tns:HotelsResponse" name="HotelsResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="fault" element="tns:WSFault" />
+	</wsdl:message>
+	
+	<wsdl:portType name="ServicePort">
+		<wsdl:operation name="processCountryRequest">
+			<wsdl:input message="tns:CountryRequest" name="CountryRequest" />
+			<wsdl:output message="tns:CountryResponse" name="CountryResponse" />
+			<wsdl:fault message="tns:FaultMessage" name="FaultMessage" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="processHotelsRequest">
+			<wsdl:input message="tns:HotelsRequest" name="HotelsRequest"/>
+			<wsdl:output message="tns:HotelsResponse" name="HotelsResponse" />
+			<wsdl:fault message="tns:FaultMessage" name="FaultMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="ServicePortSoap11" type="tns:ServicePort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="processCountryRequest">
+			<soap:operation soapAction="country_data" />
+			<wsdl:input name="CountryRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="CountryResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="processHotelsRequest">
+			<soap:operation soapAction="hotels_data" />
+			<wsdl:input name="HotelsRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="HotelsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SoapService">
+		<wsdl:port binding="tns:ServicePortSoap11" name="ServicePortSoap11">
+			<soap:address location="http://localhost:8080/ws" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

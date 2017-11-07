@@ -1,0 +1,71 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ent="http://soapserver.com/entities"
+	targetNamespace="http://soapserver.com/entities"
+	elementFormDefault="qualified">
+
+    <xs:element name="HotelsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Country" type="ent:CountryTypeForResponse" minOccurs="1" maxOccurs="1" />
+                <xs:element name="City" type="ent:CityTypeForResponse" minOccurs="1" maxOccurs="1" />
+                <xs:element name="Hotels" type="ent:HotelsTypeForResponse" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="CountryTypeForResponse">
+        <xs:sequence>		
+            <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="CityTypeForResponse">
+        <xs:sequence>		
+            <xs:element name="Name" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="Code" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="HotelsTypeForResponse">
+    	<xs:sequence>
+    		<xs:element name="Hotel" type="ent:HotelTypeForResponse" minOccurs="1" maxOccurs="99"/>    	
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="HotelTypeForResponse">
+        <xs:sequence>		        
+	        <xs:element name="Name" type="xs:string" />
+            <xs:element name="Phone" type="xs:string" />
+            <xs:element name="Fax"  type="xs:string" />
+            <xs:element name="Email"  type="xs:string" />
+            <xs:element name="Url"  type="xs:string" />
+            <xs:element name="Check_in"  type="xs:time" />
+            <xs:element name="Check_out"  type="xs:time" />
+            <xs:element name="Coordinates" type="ent:CoordinatesType"/>
+            <xs:element name="Images" type="ent:ImagesType"/>
+        </xs:sequence>
+        <xs:attribute name="Code" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="CoordinatesType">
+        <xs:sequence>		
+            <xs:element name="Latitude" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="Longitude" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="ImagesType">
+        <xs:sequence>		
+            <xs:element name="Image" type="ent:ImageType" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="ImageType">
+        <xs:sequence>			
+       		<xs:element name="URL" type="xs:string"/>
+       		<xs:element name="Type" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+</xs:schema>

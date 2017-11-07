@@ -1,0 +1,56 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ent="http://soapserver.com/entities"
+	targetNamespace="http://soapserver.com/entities"
+	elementFormDefault="qualified">
+	
+	<xs:element name="HotelsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Location" type="ent:LocationType" minOccurs="1" maxOccurs="1" />
+				<xs:element name="Language" type="ent:LanguageType" minOccurs="1" maxOccurs="1" />
+				<xs:element name="HotelInfo" type="ent:HotelInfoType" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="LocationType">
+		<xs:sequence>
+			<xs:element name="Country" type="ent:ContryTypeWithCode" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ContryTypeWithCode">
+		<xs:sequence>
+			<xs:element name="Code" type="xs:string" />
+			<xs:element name="City" type="ent:CityTypeWithName"  minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="CityTypeWithName">
+		<xs:sequence>
+			<xs:element name="Name" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="LanguageType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="en" />
+			<xs:enumeration value="ru" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="HotelInfoType">
+		<xs:sequence>
+			<xs:element name="HotelName" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Category" type="ent:CategoryType"  minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="CategoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Large" />
+			<xs:enumeration value="Medium" />
+			<xs:enumeration value="Small" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
